@@ -1,0 +1,28 @@
+ingress:
+  enabled: false
+api:
+  image:
+    tag: '5'
+  annotations: |
+    "consul.hashicorp.com/connect-inject": "true"
+    "consul.hashicorp.com/transparent-proxy": "false"
+    "geometrylabs.io/logging": "true"
+    "prometheus.io/scrape": "true"
+    "prometheus.io/port": "9400"
+  kafka:
+    topics:
+      blocks: blocks-raw
+      transactions: transactions-raw
+      logs: logs-raw
+worker:
+  annotations: |
+    "geometrylabs.io/logging": "true"
+    "prometheus.io/scrape": "true"
+    "prometheus.io/port": "9400"
+  image:
+    tag: '5'
+  kafka:
+    topics:
+      blocks: blocks-raw
+      transactions: transactions-raw
+      logs: logs-raw
