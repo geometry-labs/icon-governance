@@ -41,7 +41,8 @@ class Settings(BaseSettings):
     KAFKA_GROUP_ID: str = "governance-service"
 
     # Topics
-    CONSUMER_GROUP: str = "governance-consumer-group"
+    CONSUMER_GROUP_HEAD: str = "governance-head"
+    CONSUMER_GROUP_TAIL: str = "governance-tail"
     SCHEMA_NAME_TOPICS: str = "governance-ws:block"
 
     CONSUMER_TOPIC_BLOCKS: str = "governance"

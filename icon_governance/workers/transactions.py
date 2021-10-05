@@ -130,7 +130,7 @@ def transactions_worker():
     kafka = TransactionsWorker(
         session=session,
         topic=settings.CONSUMER_TOPIC_TRANSACTIONS,
-        consumer_group=str(uuid4()),
+        consumer_group=settings.CONSUMER_GROUP_HEAD,
     )
 
     kafka.start()
