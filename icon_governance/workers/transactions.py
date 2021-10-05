@@ -110,7 +110,7 @@ class TransactionsWorker(KafkaClient):
 def transactions_worker():
     kafka = TransactionsWorker(
         session=session,
-        topic="transactions",
+        topic=settings.CONSUMER_TOPIC_TRANSACTIONS,
         consumer_group=str(uuid4()),
     )
 
