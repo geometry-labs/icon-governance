@@ -39,8 +39,8 @@ app.add_middleware(
 )
 
 logger.info("Starting metrics server.")
-metrics_pool = ThreadPool(1)
-metrics_pool.apply_async(start_http_server, (settings.METRICS_PORT, settings.METRICS_ADDRESS))
+# metrics_pool = ThreadPool(1)
+# metrics_pool.apply_async(start_http_server, (settings.METRICS_PORT, settings.METRICS_ADDRESS))
 start_http_server(9401, "localhost")
 
 logger.info("Starting application...")

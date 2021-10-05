@@ -10,20 +10,17 @@ from icon_governance.db import init_db
 from icon_governance.workers.transactions import transactions_worker
 
 logger.info("Starting metrics server.")
-# metrics_pool = ThreadPool(1)
-# metrics_pool.apply_async(start_http_server, (settings.METRICS_PORT, settings.METRICS_ADDRESS))
-
-# asyncio.run(init_db())
+metrics_pool = ThreadPool(1)
+metrics_pool.apply_async(start_http_server, (settings.METRICS_PORT, settings.METRICS_ADDRESS))
 
 transactions_worker_thread = Thread(
     target=transactions_worker,
     args=(),
 )
 
-prep_cron = Thread(
-    target=transactions_worker,
-    args=(),
-)
+# prep_cron = Thread(
+#     target=transactions_worker,
+#     args=(),
+# )
 
-transactions_worker_thread.daemon = True
 transactions_worker_thread.start()
