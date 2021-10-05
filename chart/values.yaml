@@ -35,8 +35,6 @@ api:
     prefix: "/metrics"
   rest:
     prefix: "/api/v1"
-  websocket:
-    prefix: "/ws/v1"
   logging:
     level: INFO
     toFile: false

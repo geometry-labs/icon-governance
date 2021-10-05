@@ -9,11 +9,6 @@ api:
     "geometrylabs.io/logging": "true"
     "prometheus.io/scrape": "true"
     "prometheus.io/port": "9400"
-  kafka:
-    topics:
-      blocks: blocks-raw
-      transactions: transactions-raw
-      logs: logs-raw
 worker:
   annotations: |
     "geometrylabs.io/logging": "true"
@@ -23,6 +18,6 @@ worker:
     tag: '9'
   kafka:
     topics:
-      blocks: blocks-raw
-      transactions: transactions-raw
-      logs: logs-raw
+      blocks: v015a-blocks-raw
+      transactions: v015a-transactions-raw
+      logs: v015a-logs-raw
