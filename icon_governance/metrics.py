@@ -5,7 +5,16 @@ class Metrics:
     def __init__(self):
 
         self.preps_created = Gauge(
-            "governance_preps_created",
+            "preps_created",
             "Num created.",
-            ["network_name"],
+        )
+
+        self.preps_updated = Gauge(
+            "preps_updated",
+            "Num updated.",
+        )
+
+        self.block_height = Gauge(
+            "max_block_number_transactions_raw",
+            "The block height",
         )

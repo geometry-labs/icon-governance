@@ -4,14 +4,26 @@ from uuid import uuid4
 from icon_governance.config import settings
 from icon_governance.db import session
 from icon_governance.log import logger
+from icon_governance.metrics import Metrics
 from icon_governance.models.preps import Prep
 from icon_governance.utils.details import get_details
 from icon_governance.workers.kafka import KafkaClient
 
+metrics = Metrics()
+
 
 class TransactionsWorker(KafkaClient):
+    msg_count: int = 0
+    preps_created: int = 0
+    preps_updated: int = 0
+
     def process(self, msg):
         # Filter on only txs to the governance address
+        if self.msg_count % 10000 == 0:
+            logger.info(f"msg count {self.msg_count} and block {msg.value().block_number}")
+            metrics.block_height.set(msg.value().block_number)
+        self.msg_count += 1
+
         if msg.key() != settings._governance_address:
             return
 
@@ -43,6 +55,10 @@ class TransactionsWorker(KafkaClient):
                 if method == "unregisterPRep":
                     logger.info(f"Prep unregistration tx hash {value.hash}")
                     prep.status = "unregistered"
+
+                    self.preps_created += 1
+                    metrics.preps_created.set(self.preps_created)
+
                     self.session.add(prep)
                     self.session.commit()
                     return
@@ -76,6 +92,9 @@ class TransactionsWorker(KafkaClient):
             # Add information from details
             for k, v in details.items():
                 setattr(prep, k, v)
+
+            self.preps_updated += 1
+            metrics.preps_updated.set(self.preps_updated)
 
             self.session.add(prep)
             self.session.commit()
