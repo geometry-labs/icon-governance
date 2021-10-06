@@ -129,7 +129,7 @@ class TransactionsWorker(KafkaClient):
             print()
 
 
-def transactions_worker():
+def transactions_worker_head():
     kafka = TransactionsWorker(
         session=session,
         topic=settings.CONSUMER_TOPIC_TRANSACTIONS,
@@ -139,5 +139,16 @@ def transactions_worker():
     kafka.start()
 
 
+def transactions_worker_tail():
+    kafka = TransactionsWorker(
+        session=session,
+        topic=settings.CONSUMER_TOPIC_TRANSACTIONS,
+        consumer_group=settings.CONSUMER_GROUP_TAIL,
+    )
+
+    kafka.start()
+
+
 if __name__ == "__main__":
-    transactions_worker()
+    # transactions_worker_head()
+    transactions_worker_tail()

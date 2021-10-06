@@ -27,7 +27,7 @@ api:
   internal:
     port: 80
   health:
-    port: 9300
+    port: 80
     prefix: "/health"
     pollingInterval: 60
   metrics:
@@ -92,6 +92,9 @@ worker:
       blocks: blocks
       transactions: transactions
       logs: logs
+    consumerGroup:
+      head: governance-head
+      tail: governance-tail
   resources:
     requests:
       cpu: 250m
@@ -107,12 +110,3 @@ worker:
 kafka:
   kafkaBrokerURL: ""
   schemaRegistryURL: ""
-#  kafkaGroupID: websocket-group
-  consumerGroup: governance-consumer-group
-#  schemaNameTopics: "governance-ws:block"
-
-#db:
-#  driver: postgres
-#  name: governance
-#  sslMode: disable
-#  timezone: UTC

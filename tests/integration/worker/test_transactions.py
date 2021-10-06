@@ -4,7 +4,7 @@ import pytest
 from sqlmodel import select
 
 from icon_governance.models.preps import Prep
-from icon_governance.workers.transactions import transactions_worker
+from icon_governance.workers.transactions import TransactionsWorker
 
 
 @pytest.fixture()
