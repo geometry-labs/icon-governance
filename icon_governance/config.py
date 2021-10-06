@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     REST_PREFIX: str = "/api/v1"
     HEALTH_PREFIX: str = "/heath"
     METRICS_PREFIX: str = "/metrics"
-    DOCS_PREFIX: str = "/api/v1/docs"
+    DOCS_PREFIX: str = "/api/v1/governance/docs"
 
     CORS_ALLOW_ORIGINS: str = "*"
 
