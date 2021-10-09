@@ -1,5 +1,6 @@
 from typing import Any, List, Optional
 
+from sqlalchemy.orm import declared_attr
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 
@@ -45,3 +46,20 @@ class Prep(SQLModel, table=True):
     server_country: Optional[str] = Field(None, index=False)
     server_city: Optional[str] = Field(None, index=False)
     server_type: Optional[str] = Field(None, index=False)
+
+    # Delegation
+    voted: Optional[float] = Field(None, index=False)
+    voting_power: Optional[float] = Field(None, index=False)
+    delegated: Optional[float] = Field(None, index=False)
+    stake: Optional[float] = Field(None, index=False)
+    irep: Optional[float] = Field(None, index=False)
+    irep_updated_block_height: Optional[float] = Field(None, index=False)
+
+    # Productivity
+    total_blocks: Optional[float] = Field(None, index=False)
+    validated_blocks: Optional[float] = Field(None, index=False)
+    unvalidated_sequence_blocks: Optional[float] = Field(None, index=False)
+
+    @declared_attr
+    def __tablename__(cls) -> str:  # noqa: N805
+        return "preps"

@@ -6,6 +6,16 @@ from icon_governance.config import settings
 from icon_governance.log import logger
 
 
+def convert_hex_int(hex_string: str) -> int:
+    return int(hex_string, 16)
+
+
+def post_rpc_json(response):
+    if response.status_code != 200:
+        return None
+    return response.json()["result"]
+
+
 def post_rpc(payload: dict):
     r = requests.post(settings.ICON_NODE_URL, data=json.dumps(payload))
 
@@ -41,6 +51,40 @@ def getPReps():
                 "method": "getPReps",
                 "params": {"startRanking": "0x1", "endRanking": "0xaaa"},  # Should be all preps
             },
+        },
+    }
+    return post_rpc(payload)
+
+
+def getDelegation(address: str):
+    payload = {
+        "jsonrpc": "2.0",
+        "id": 1234,
+        "method": "icx_call",
+        "params": {
+            "to": "cx0000000000000000000000000000000000000000",
+            "dataType": "call",
+            "data": {"method": "getDelegation", "params": {"address": address}},
+        },
+    }
+    return post_rpc(payload)
+
+
+# def get_delegation(address: str):
+#     delegation = post_rpc_json(getDelegation(address))
+#     if delegation
+#     return delegation
+
+
+def getStake(address: str):
+    payload = {
+        "jsonrpc": "2.0",
+        "id": 1234,
+        "method": "icx_call",
+        "params": {
+            "to": "cx0000000000000000000000000000000000000000",
+            "dataType": "call",
+            "data": {"method": "getStake", "params": {"address": address}},
         },
     }
     return post_rpc(payload)

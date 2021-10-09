@@ -4,6 +4,8 @@ if [ "$1" = "worker" ]; then
   echo "Migrating backend..."
   cd icon_governance
   alembic upgrade head
+  echo "Initializing DB..."
+  python db_init.py
   echo "Starting worker..."
   python main_worker.py
 
