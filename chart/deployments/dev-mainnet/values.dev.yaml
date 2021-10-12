@@ -2,7 +2,7 @@ ingress:
   enabled: false
 api:
   image:
-    tag: '22'
+    tag: '23'
   annotations: |
     "consul.hashicorp.com/connect-inject": "true"
     "consul.hashicorp.com/transparent-proxy": "false"
@@ -15,7 +15,7 @@ worker:
     "prometheus.io/scrape": "true"
     "prometheus.io/port": "9400"
   image:
-    tag: '22'
+    tag: '23'
   kafka:
     topics:
       blocks: v015a-blocks-raw
