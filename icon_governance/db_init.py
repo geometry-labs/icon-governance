@@ -3,10 +3,15 @@ from json import JSONDecodeError
 import requests
 from requests.exceptions import ConnectionError, ConnectTimeout
 
+from icon_governance.config import settings
 from icon_governance.db import session
 from icon_governance.log import logger
 from icon_governance.models.preps import Prep
+from icon_governance.schemas.governance_prep_processed_pb2 import (
+    GovernancePrepProcessed,
+)
 from icon_governance.utils.rpc import convert_hex_int, getPReps
+from icon_governance.workers.kafka import KafkaClient
 
 
 def extract_details(details: dict, prep: Prep):
@@ -54,6 +59,7 @@ def extract_details(details: dict, prep: Prep):
 
 
 def get_initial_preps():
+    kafka = KafkaClient()
     rpc_preps = getPReps().json()["result"]
 
     for p in rpc_preps["preps"]:
@@ -99,6 +105,13 @@ def get_initial_preps():
 
         session.add(prep)
         session.commit()
+
+        processes_prep = GovernancePrepProcessed(address=p["address"], is_prep=True)
+        kafka.produce_protobuf(
+            settings.PRODUCER_TOPIC_GOVERNANCE_PREPS,
+            p["address"],  # Keyed on address for init - hash for Tx updates
+            processes_prep,
+        )
 
 
 if __name__ == "__main__":

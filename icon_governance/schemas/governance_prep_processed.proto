@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message GovernancePrepProcessed {
+    string address = 1;
+    bool is_prep = 2;
+}

@@ -71,6 +71,8 @@ class Settings(BaseSettings):
 
     CRON_SLEEP_SEC: int = 600
 
+    PRODUCER_TOPIC_GOVERNANCE_PREPS: str = "governance-preps-processed"
+
     class Config:
         case_sensitive = True
         # env_prefix = "GOVERNANCE_"

@@ -6,6 +6,9 @@ from icon_governance.db import session
 from icon_governance.log import logger
 from icon_governance.metrics import Metrics
 from icon_governance.models.preps import Prep
+from icon_governance.schemas.governance_prep_processed_pb2 import (
+    GovernancePrepProcessed,
+)
 from icon_governance.utils.details import get_details
 from icon_governance.workers.kafka import KafkaClient
 
@@ -16,6 +19,14 @@ class TransactionsWorker(KafkaClient):
     msg_count: int = 0
     preps_created: int = 0
     preps_updated: int = 0
+
+    def produce_prep(self, address, is_prep: bool = True):
+        processes_prep = GovernancePrepProcessed(address=address, is_prep=is_prep)
+        self.produce_protobuf(
+            settings.PRODUCER_TOPIC_GOVERNANCE_PREPS,
+            address,  # Keyed on address
+            processes_prep,
+        )
 
     def process(self, msg):
         # Filter on only txs to the governance address
@@ -59,6 +70,9 @@ class TransactionsWorker(KafkaClient):
                     logger.info(f"Prep unregistration tx hash {value.hash}")
                     prep.status = "unregistered"
 
+                    # Emit message
+                    self.produce_prep(value.from_address, is_prep=False)
+
                     self.preps_created += 1
                     metrics.preps_created.set(self.preps_created)
 
@@ -101,6 +115,10 @@ class TransactionsWorker(KafkaClient):
 
             self.session.add(prep)
             self.session.commit()
+
+            # Emit message
+            if method == "registerPRep":
+                self.produce_prep(value.from_address)
 
         # Staking
         if method == "setStake":
