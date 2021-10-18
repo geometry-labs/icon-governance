@@ -5,7 +5,7 @@ from loguru import logger
 from prometheus_client import start_http_server
 
 from icon_governance.config import settings
-from icon_governance.workers.cron import cron_worker
+from icon_governance.workers.cron import prep_details_cron_worker
 from icon_governance.workers.transactions import (
     transactions_worker_head,
     transactions_worker_tail,
@@ -26,7 +26,7 @@ transactions_worker_tail_thread = Thread(
 )
 
 prep_cron = Thread(
-    target=cron_worker,
+    target=prep_details_cron_worker,
     args=(),
 )
 

@@ -8,12 +8,11 @@ from icon_governance.utils.rpc import (
     convert_hex_int,
     getDelegation,
     getPReps,
-    getStake,
     post_rpc_json,
 )
 
 
-def cron_worker():
+def prep_details_cron_worker():
 
     while True:
         logger.info("")
@@ -49,4 +48,4 @@ def cron_worker():
 
 
 if __name__ == "__main__":
-    cron_worker()
+    prep_details_cron_worker()

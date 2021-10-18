@@ -6,7 +6,7 @@ services:
     command: [
       "stream",
 #       "-s", "${START_BLOCK:-36747915}",
-       "-s", "${START_BLOCK:-10767242}",
+      "-s", "${START_BLOCK:-10767242}",
       "-o", "kafka:9092",
       "--period-seconds", "1",
       "--provider-uri", "http://34.218.244.40:9000/api/v3",
@@ -114,7 +114,7 @@ services:
     ports:
       - "9021:9021"
     environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:29092'
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:9092'
       CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONTROL_CENTER_REPLICATION_FACTOR: 1
       CONTROL_CENTER_SCHEMA_REGISTRY_URL: 'schemaregistry:8081'
