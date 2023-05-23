@@ -1,5 +1,5 @@
 nanoid==2.0.0
-requests==2.26.0
+requests==2.31.0
 loguru==0.5.3
 prometheus_client==0.11.0
 grpcio==1.40.0
