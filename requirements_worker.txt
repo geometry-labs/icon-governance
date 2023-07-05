@@ -2,7 +2,7 @@ nanoid==2.0.0
 requests==2.26.0
 loguru==0.5.3
 prometheus_client==0.11.0
-grpcio==1.40.0
+grpcio==1.53.0
 protobuf
 confluent_kafka==1.8.2
 alembic==1.7.1
